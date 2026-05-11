@@ -1,0 +1,119 @@
+/* ===== ADMIN - All Users ===== */
+.all-users-page {
+    padding: 40px 5vw;
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.all-users-page h3 {
+    color: var(--text-primary);
+    font-weight: 800;
+    font-size: 2.2rem;
+    margin-bottom: 32px;
+    letter-spacing: -1.2px;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.all-users {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 1000px;
+}
+
+.user {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.5fr 0.8fr 1fr;
+    gap: 20px;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 24px 32px;
+    border-radius: var(--radius-lg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
+    background: var(--bg-card-hover);
+}
+
+.user span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.user span b {
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.user span p {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+/* Role Badges */
+.role-freelancer {
+    color: var(--accent-blue) !important;
+    background: rgba(116, 185, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    display: inline-block;
+}
+
+.role-client {
+    color: var(--accent-green) !important;
+    background: rgba(0, 206, 201, 0.1);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    display: inline-block;
+}
+
+.role-admin {
+    color: var(--accent-red) !important;
+    background: rgba(255, 107, 107, 0.1);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    display: inline-block;
+}
+
+.user-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.delete-user-btn {
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.2);
+    color: var(--accent-red);
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.delete-user-btn:hover {
+    background: var(--accent-red);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+@media (max-width: 900px) {
+    .user {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}

@@ -1,0 +1,102 @@
+/* ===== MY APPLICATIONS ===== */
+.user-applications-page {
+    padding: 30px 3vw;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.user-applications-page h3 {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.3px;
+}
+
+.user-applications-body {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    height: calc(100vh - 170px);
+    border-radius: var(--radius-lg);
+    margin-top: 20px;
+    padding: 8px 0;
+    overflow-y: auto;
+}
+
+.user-applications-body::-webkit-scrollbar { width: 4px; }
+.user-applications-body::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
+
+.user-application {
+    padding: 24px 28px;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid var(--border);
+}
+
+.user-application:last-child {
+    border-bottom: none;
+}
+
+.user-application:hover {
+    background: var(--bg-card-hover);
+}
+
+.user-application-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.vertical-line {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+    align-self: stretch;
+    margin: 0 20px;
+    opacity: 0.4;
+}
+
+.user-application-half {
+    width: 46%;
+}
+
+.user-application-half h4 {
+    font-size: 1.15rem;
+    color: var(--accent-blue);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.user-application-half h5 {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    font-weight: 400;
+}
+
+.user-application-half h5 b {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Skills */
+.user-application-half span .application-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.user-application-half span .application-skills p {
+    color: var(--accent-light);
+    border: 1px solid rgba(108, 92, 231, 0.2);
+    background: rgba(108, 92, 231, 0.08);
+    padding: 4px 13px;
+    border-radius: var(--radius-pill);
+    font-size: 0.7rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.user-application-half h6 b {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+}

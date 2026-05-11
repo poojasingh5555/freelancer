@@ -1,0 +1,149 @@
+/* ===== PROJECT DATA (Freelancer View) ===== */
+.project-data-page {
+    padding: 30px 4vw;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.project-data-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.project-data {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+}
+
+.project-data h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.project-data .desc {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.project-data .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.project-data .skill-pill {
+    background: rgba(108, 92, 231, 0.1);
+    color: var(--accent-light);
+    border: 1px solid rgba(108, 92, 231, 0.2);
+    padding: 6px 18px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.project-data h4 {
+    color: var(--accent-green);
+    font-weight: 700;
+}
+
+.project-data-page hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 30px 0;
+}
+
+/* Action Card (Bidding Form) */
+.action-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+}
+
+.action-card h4 {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+/* Workspace (Chat + Submit) */
+.workspace {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.chat-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+}
+
+.chat-box h4 {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.messages-list {
+    height: 320px;
+    overflow-y: auto;
+    padding: 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+}
+
+.messages-list::-webkit-scrollbar { width: 4px; }
+.messages-list::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
+
+.msg {
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+.msg.me {
+    background: linear-gradient(135deg, var(--accent), #8b5cf6);
+    color: #fff;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.msg.other {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+}
+
+.msg strong {
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: 4px;
+    opacity: 0.7;
+}
+
+/* Submission Card */
+.submission-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+}
+
+.submission-card h4 {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 16px;
+}

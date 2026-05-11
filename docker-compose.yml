@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "6001:6001"
+    environment:
+      - MONGODB_URI=mongodb+srv://singhps:y9Qu9qevXyhYxN8h@clusterdb.s9lcn.mongodb.net/freelancerDB
+      - PORT=6001
+      - JWT_SECRET=my_super_secret_key
+      - CLIENT_URL=http://localhost:3000
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_API_URL=http://localhost:6001/
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - server
+    stdin_open: true # Equivalent to -i
+    tty: true        # Equivalent to -t

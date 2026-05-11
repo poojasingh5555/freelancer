@@ -1,0 +1,7 @@
+/* color: #ee4950 */
+/* color: #080808 */
+
+.App {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+}

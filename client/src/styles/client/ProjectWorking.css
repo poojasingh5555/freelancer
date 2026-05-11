@@ -1,0 +1,133 @@
+/* ===== CLIENT - Project Working / Chat ===== */
+.project-details-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 3vw;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.project-info {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+}
+
+.project-info h2 {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.project-info p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.project-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.project-meta span {
+    color: var(--accent-green);
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: rgba(0, 206, 201, 0.08);
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(0, 206, 201, 0.2);
+}
+
+.project-details-container hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+}
+
+/* Chat Section */
+.chat-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+}
+
+.chat-section h3 {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.chat-window {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 20px !important;
+    height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chat-window::-webkit-scrollbar { width: 4px; }
+.chat-window::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
+
+.chat-window .message {
+    padding: 12px 18px;
+    border-radius: var(--radius-lg);
+    font-size: 0.95rem;
+    max-width: 75%;
+    line-height: 1.5;
+    width: fit-content;
+    word-break: break-word;
+    box-shadow: var(--shadow-sm);
+}
+
+.chat-window .message.own {
+    background: linear-gradient(135deg, var(--accent), #8b5cf6);
+    color: #fff;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-window .message.other {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+}
+
+.chat-window .message strong {
+    font-size: 0.72rem;
+    display: block;
+    margin-bottom: 4px;
+    opacity: 0.65;
+}
+
+.chat-input {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 16px;
+    background: var(--bg-card);
+    padding: 12px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+}
+
+.chat-input .form-control {
+    flex: 1;
+    border: none !important;
+    background: var(--bg-secondary) !important;
+}
+
+.chat-input .btn {
+    height: 48px;
+    padding: 0 28px !important;
+    margin-top: 0 !important;
+}
