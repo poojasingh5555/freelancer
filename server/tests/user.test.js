@@ -5,10 +5,7 @@ import User from "../models/userModel.js";
 import Freelancer from "../models/freelancerModel.js";
 
 beforeAll(async () => {
-  const url = process.env.MONGODB_URI; 
-  if (!url) {
-    throw new Error("MONGODB_URI .env file mein nahi mila!");
-  }
+  const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
   await mongoose.connect(url);
 }, 30000); 
 

@@ -5,8 +5,7 @@ import Project from "../models/projectModel.js";
 
 // Database Connection
 beforeAll(async () => {
-  const url = process.env.MONGODB_URI; 
-  if (!url) throw new Error("MONGODB_URI missing");
+  const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
   await mongoose.connect(url);
 }, 30000); 
 

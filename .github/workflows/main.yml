@@ -33,6 +33,9 @@ jobs:
         image: mongo:6.0
         ports:
           - 27017:27017
+    env:
+      MONGODB_URI: mongodb://127.0.0.1:27017/testdb
+      JWT_SECRET: test_secret
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js 20
@@ -46,9 +49,6 @@ jobs:
         cd server
         npm install
     - name: Run Backend Tests
-      env:
-        MONGODB_URI: mongodb://localhost:27017/testdb
-        JWT_SECRET: test_secret
       run: |
         cd server
         npm test
