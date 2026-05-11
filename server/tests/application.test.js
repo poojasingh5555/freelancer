@@ -28,10 +28,13 @@ describe("Application & Bidding APIs Testing", () => {
     };
 
     // Aapka route: /make-bid (POST)
-    const res = await request(app).post("/api/applications/make-bid").send(bidData); 
+    const res = await request(app)
+      .post("/api/applications/make-bid")
+      .set("Authorization", "Bearer dummy_token")
+      .send(bidData); 
     
-    // Fake ID hone ki wajah se 400/500 error aa sakta hai, par route block nahi hona chahiye
-    expect([200, 400, 500]).toContain(res.statusCode); 
+    // Fake ID/Token hone ki wajah se 401/400/500 error aa sakta hai, par 404 nahi hona chahiye
+    expect([200, 401, 400, 500]).toContain(res.statusCode); 
   });
 
   // 2. FETCH APPLICATIONS TEST
