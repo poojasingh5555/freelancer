@@ -7,6 +7,7 @@ import User from "../models/userModel.js";
 beforeAll(async () => {
   const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
   await mongoose.connect(url);
+  await User.deleteMany({ email: "admin_test@test.com" }); // Clean start
 }, 30000); 
 
 afterAll(async () => {
@@ -25,17 +26,19 @@ describe("Admin APIs Testing", () => {
     username: "admin_test",
     email: "admin_test@test.com",
     password: "password123",
-    usertype: "admin", 
-    role: "admin" 
+    role: "admin" // Backend expects 'role'
   };
 
   it("Should register & login an Admin to get token", async () => {
-    await request(app).post("/api/users/register").send(adminData);
+    const regRes = await request(app).post("/api/users/register").send(adminData);
+    expect([200, 400]).toContain(regRes.statusCode); // 200 if new, 400 if exists
+
     const res = await request(app)
       .post("/api/users/login")
       .send({ email: adminData.email, password: adminData.password });
 
-    if (res.body.token) adminToken = res.body.token;
+    expect(res.statusCode).toBe(200);
+    adminToken = res.body.token;
   });
 
   it("Should fetch all users", async () => {

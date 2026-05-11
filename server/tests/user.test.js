@@ -7,6 +7,7 @@ import Freelancer from "../models/freelancerModel.js";
 beforeAll(async () => {
   const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
   await mongoose.connect(url);
+  await User.deleteMany({ email: "pooja_atlas@test.com" }); // Clean start
 }, 30000); 
 
 afterAll(async () => {
