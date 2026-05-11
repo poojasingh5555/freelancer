@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import app from "../app.js";
 import User from "../models/userModel.js";
 
-// Database Connection
 describe("Application & Bidding APIs Testing", () => {
   let token;
   const dummyProjectId = new mongoose.Types.ObjectId().toString();
@@ -15,7 +14,7 @@ describe("Application & Bidding APIs Testing", () => {
     await mongoose.connect(url);
     await User.deleteMany({ email: "app_test@test.com" });
 
-    // Login setup yahan (beforeAll mein) hona chahiye
+    // Setup User and Token
     const userData = {
       username: "app_test_user",
       email: "app_test@test.com",

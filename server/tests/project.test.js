@@ -14,7 +14,7 @@ describe("Project APIs Testing", () => {
     await mongoose.connect(url);
     await User.deleteMany({ email: "project_test@test.com" });
 
-    // Login setup
+    // Setup User and Token
     const userData = {
       username: "project_test_user",
       email: "project_test@test.com",
