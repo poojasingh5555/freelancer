@@ -18,8 +18,25 @@ afterAll(async () => {
 }, 10000);
 
 describe("Project APIs Testing", () => {
+  let token;
   let createdProjectId; 
   const dummyClientId = new mongoose.Types.ObjectId().toString();
+
+  // SETUP: Get a real token
+  it("Should setup a user and get token", async () => {
+    const userData = {
+      username: "project_test_user",
+      email: "project_test@test.com",
+      password: "password123",
+      role: "client"
+    };
+    await request(app).post("/api/users/register").send(userData);
+    const loginRes = await request(app).post("/api/users/login").send({
+      email: userData.email,
+      password: userData.password
+    });
+    token = loginRes.body.token;
+  });
 
   // TEST 1: Naya Project Add Karna
   it("Should add a new project successfully", async () => {
@@ -33,8 +50,10 @@ describe("Project APIs Testing", () => {
       clientEmail: "testclient@test.com",
     };
 
-    // UPDATE: Aapka route '/new-project' hai
-    const res = await request(app).post("/api/projects/new-project").send(newProjectData); 
+    const res = await request(app)
+      .post("/api/projects/new-project")
+      .set("Authorization", `Bearer ${token}`)
+      .send(newProjectData); 
     
     expect(res.statusCode).toBe(200);
 

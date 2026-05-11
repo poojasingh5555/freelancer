@@ -13,10 +13,26 @@ afterAll(async () => {
 }, 10000);
 
 describe("Application & Bidding APIs Testing", () => {
-  // Fake valid MongoDB IDs for testing
+  let token;
   const dummyProjectId = new mongoose.Types.ObjectId().toString();
   const dummyFreelancerId = new mongoose.Types.ObjectId().toString();
   const dummyApplicationId = new mongoose.Types.ObjectId().toString();
+
+  // SETUP: Get a real token
+  it("Should setup a user and get token", async () => {
+    const userData = {
+      username: "app_test_user",
+      email: "app_test@test.com",
+      password: "password123",
+      role: "freelancer"
+    };
+    await request(app).post("/api/users/register").send(userData);
+    const loginRes = await request(app).post("/api/users/login").send({
+      email: userData.email,
+      password: userData.password
+    });
+    token = loginRes.body.token;
+  });
 
   // 1. MAKE BID TEST
   it("Should make a new bid successfully", async () => {
@@ -30,17 +46,18 @@ describe("Application & Bidding APIs Testing", () => {
     // Aapka route: /make-bid (POST)
     const res = await request(app)
       .post("/api/applications/make-bid")
-      .set("Authorization", "Bearer dummy_token")
+      .set("Authorization", `Bearer ${token}`)
       .send(bidData); 
     
-    // Fake ID/Token hone ki wajah se 401/400/500 error aa sakta hai, par 404 nahi hona chahiye
-    expect([200, 401, 400, 500]).toContain(res.statusCode); 
+    expect([200, 400, 500]).toContain(res.statusCode); 
   });
 
   // 2. FETCH APPLICATIONS TEST
   it("Should fetch applications based on query", async () => {
     // Aapka route: /fetch-applications (GET)
-    const res = await request(app).get(`/api/applications/fetch-applications?projectId=${dummyProjectId}`);
+    const res = await request(app)
+      .get(`/api/applications/fetch-applications?projectId=${dummyProjectId}`)
+      .set("Authorization", `Bearer ${token}`);
     
     expect([200, 400, 500]).toContain(res.statusCode);
   });
@@ -48,7 +65,9 @@ describe("Application & Bidding APIs Testing", () => {
   // 3. APPROVE APPLICATION TEST
   it("Should call approve application route", async () => {
     // Aapka route: /approve-application/:id (GET)
-    const res = await request(app).get(`/api/applications/approve-application/${dummyApplicationId}`);
+    const res = await request(app)
+      .get(`/api/applications/approve-application/${dummyApplicationId}`)
+      .set("Authorization", `Bearer ${token}`);
     
     expect([200, 400, 404, 500]).toContain(res.statusCode);
   });
@@ -56,7 +75,9 @@ describe("Application & Bidding APIs Testing", () => {
   // 4. REJECT APPLICATION TEST
   it("Should call reject application route", async () => {
     // Aapka route: /reject-application/:id (GET)
-    const res = await request(app).get(`/api/applications/reject-application/${dummyApplicationId}`);
+    const res = await request(app)
+      .get(`/api/applications/reject-application/${dummyApplicationId}`)
+      .set("Authorization", `Bearer ${token}`);
     
     expect([200, 400, 404, 500]).toContain(res.statusCode);
   });

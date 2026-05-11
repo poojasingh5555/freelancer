@@ -74,8 +74,8 @@ describe("Freelancer Profile APIs Testing", () => {
       .send(updateData);
     
     expect(res.statusCode).toBe(200);
-    expect(res.body.skills).toContain("React");
-    expect(res.body.description).toBe(updateData.description);
+    expect(res.body.freelancer.skills).toContain("React");
+    expect(res.body.freelancer.description).toBe(updateData.description);
   });
 
   // TEST 4: SECURITY CHECK (Without Token)
