@@ -7,17 +7,17 @@ import User from "../models/userModel.js";
 describe("Project APIs Testing", () => {
   let token;
   let createdProjectId; 
-  const dummyClientId = new mongoose.Types.ObjectId().toString();
+  const testEmail = "project_test@test.com";
 
   beforeAll(async () => {
     const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
     await mongoose.connect(url);
-    await User.deleteMany({ email: "project_test@test.com" });
+    await User.deleteMany({ email: testEmail });
 
     // Setup User and Token
     const userData = {
       username: "project_test_user",
-      email: "project_test@test.com",
+      email: testEmail,
       password: "password123",
       role: "client"
     };
@@ -31,8 +31,8 @@ describe("Project APIs Testing", () => {
 
   afterAll(async () => {
     if (mongoose.connection.readyState !== 0) {
-      await User.deleteMany({ email: "project_test@test.com" });
-      await Project.deleteMany({ clientEmail: "testclient@test.com" });
+      await User.deleteMany({ email: testEmail });
+      await Project.deleteMany({ clientEmail: testEmail });
       await mongoose.connection.close();
     }
   }, 10000);
@@ -43,10 +43,7 @@ describe("Project APIs Testing", () => {
       title: "Build a React App",
       description: "Need a fast frontend with Tailwind",
       budget: "500",
-      skills: "React,Node.js,Tailwind", 
-      clientId: dummyClientId,
-      clientName: "Test Client",
-      clientEmail: "testclient@test.com",
+      skills: "React,Node.js,Tailwind"
     };
 
     const res = await request(app)
@@ -56,13 +53,14 @@ describe("Project APIs Testing", () => {
     
     expect(res.statusCode).toBe(200);
 
-    const savedProject = await Project.findOne({ clientEmail: "testclient@test.com" });
+    const savedProject = await Project.findOne({ clientEmail: testEmail });
     expect(savedProject).toBeTruthy();
     createdProjectId = savedProject._id.toString(); 
   });
 
   // TEST 2: Project Fetch Karna (ID se)
   it("Should fetch the created project by ID", async () => {
+    expect(createdProjectId).toBeDefined();
     const res = await request(app).get(`/api/projects/fetch-project/${createdProjectId}`);
     expect(res.statusCode).toBe(200);
     expect(res.body.title).toBe("Build a React App");
@@ -70,6 +68,7 @@ describe("Project APIs Testing", () => {
 
   // TEST 3: Project Submit Karna
   it("Should submit the project successfully", async () => {
+    expect(createdProjectId).toBeDefined();
     const submissionData = {
       projectId: createdProjectId, 
       projectLink: "https://github.com/my-react-app",
