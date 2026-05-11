@@ -11,9 +11,7 @@
     "dev": "nodemon app.js"
   },
   "jest": {
-    "testEnvironment": "node",
-    "transform": {},
-    "setupFiles": ["dotenv/config"]
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
@@ -33,9 +31,11 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.23.2",
+    "babel-jest": "^29.7.0",
     "cliui": "^8.0.1",
     "cross-env": "^7.0.3",
-    "jest": "^27.5.1",
+    "jest": "^29.7.0",
     "supertest": "^6.3.3",
     "yargs": "^17.7.2"
   }
