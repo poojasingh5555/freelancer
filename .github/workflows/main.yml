@@ -28,6 +28,11 @@ jobs:
 
   test-backend:
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js 20
@@ -41,6 +46,9 @@ jobs:
         cd server
         npm install
     - name: Run Backend Tests
+      env:
+        MONGODB_URI: mongodb://localhost:27017/testdb
+        JWT_SECRET: test_secret
       run: |
         cd server
         npm test
