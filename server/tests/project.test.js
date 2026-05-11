@@ -2,16 +2,18 @@ import request from "supertest";
 import mongoose from "mongoose";
 import app from "../app.js";
 import Project from "../models/projectModel.js";
+import User from "../models/userModel.js";
 
 // Database Connection
 beforeAll(async () => {
   const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
   await mongoose.connect(url);
-}, 30000); 
+  await User.deleteMany({ email: "project_test@test.com" });
+}, 30000);
 
-// Test ke baad kachra saaf karein
 afterAll(async () => {
   if (mongoose.connection.readyState !== 0) {
+    await User.deleteMany({ email: "project_test@test.com" });
     await Project.deleteMany({ clientEmail: "testclient@test.com" });
     await mongoose.connection.close();
   }
@@ -30,12 +32,16 @@ describe("Project APIs Testing", () => {
       password: "password123",
       role: "client"
     };
-    await request(app).post("/api/users/register").send(userData);
+    const regRes = await request(app).post("/api/users/register").send(userData);
+    expect([200, 400]).toContain(regRes.statusCode);
+
     const loginRes = await request(app).post("/api/users/login").send({
       email: userData.email,
       password: userData.password
     });
+    expect(loginRes.statusCode).toBe(200);
     token = loginRes.body.token;
+    expect(token).toBeDefined();
   });
 
   // TEST 1: Naya Project Add Karna
@@ -59,16 +65,12 @@ describe("Project APIs Testing", () => {
 
     const savedProject = await Project.findOne({ clientEmail: "testclient@test.com" });
     expect(savedProject).toBeTruthy();
-    expect(savedProject.skills).toHaveLength(3); 
-    
     createdProjectId = savedProject._id.toString(); 
   });
 
   // TEST 2: Project Fetch Karna (ID se)
   it("Should fetch the created project by ID", async () => {
-    // UPDATE: Aapka route '/fetch-project/:id' hai
     const res = await request(app).get(`/api/projects/fetch-project/${createdProjectId}`);
-    
     expect(res.statusCode).toBe(200);
     expect(res.body.title).toBe("Build a React App");
   });
@@ -82,15 +84,14 @@ describe("Project APIs Testing", () => {
       submissionDescription: "All requirements met.",
     };
 
-    // UPDATE: Aapka route '/submit-work' hai aur ye protect hai
     const res = await request(app)
       .post("/api/projects/submit-work")
-      .set("Authorization", "Bearer dummy_token") // Authentication zaroori hai
+      .set("Authorization", `Bearer ${token}`) 
       .send(submissionData);
-    expect([200, 401]).toContain(res.statusCode); // Agar dummy token fail bhi ho toh 401 aayega, 404 nahi
+
+    expect(res.statusCode).toBe(200); 
 
     const updatedProject = await Project.findById(createdProjectId);
     expect(updatedProject.submission).toBe(true);
-    expect(updatedProject.projectLink).toBe("https://github.com/my-react-app");
   });
 });

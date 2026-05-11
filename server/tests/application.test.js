@@ -1,14 +1,17 @@
 import request from "supertest";
 import mongoose from "mongoose";
 import app from "../app.js";
+import User from "../models/userModel.js";
 
 // Database Connection
 beforeAll(async () => {
   const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
   await mongoose.connect(url);
+  await User.deleteMany({ email: "app_test@test.com" });
 }, 30000); 
 
 afterAll(async () => {
+  await User.deleteMany({ email: "app_test@test.com" });
   await mongoose.connection.close();
 }, 10000);
 
@@ -32,6 +35,7 @@ describe("Application & Bidding APIs Testing", () => {
       password: userData.password
     });
     token = loginRes.body.token;
+    expect(token).toBeDefined();
   });
 
   // 1. MAKE BID TEST
@@ -43,18 +47,17 @@ describe("Application & Bidding APIs Testing", () => {
       proposal: "I can deliver this project in 2 days with high quality."
     };
 
-    // Aapka route: /make-bid (POST)
     const res = await request(app)
       .post("/api/applications/make-bid")
       .set("Authorization", `Bearer ${token}`)
       .send(bidData); 
     
+    // Status 400 is expected because dummy IDs don't exist in DB, but it shouldn't be 401/404
     expect([200, 400, 500]).toContain(res.statusCode); 
   });
 
   // 2. FETCH APPLICATIONS TEST
   it("Should fetch applications based on query", async () => {
-    // Aapka route: /fetch-applications (GET)
     const res = await request(app)
       .get(`/api/applications/fetch-applications?projectId=${dummyProjectId}`)
       .set("Authorization", `Bearer ${token}`);
@@ -64,7 +67,6 @@ describe("Application & Bidding APIs Testing", () => {
 
   // 3. APPROVE APPLICATION TEST
   it("Should call approve application route", async () => {
-    // Aapka route: /approve-application/:id (GET)
     const res = await request(app)
       .get(`/api/applications/approve-application/${dummyApplicationId}`)
       .set("Authorization", `Bearer ${token}`);
@@ -74,7 +76,6 @@ describe("Application & Bidding APIs Testing", () => {
 
   // 4. REJECT APPLICATION TEST
   it("Should call reject application route", async () => {
-    // Aapka route: /reject-application/:id (GET)
     const res = await request(app)
       .get(`/api/applications/reject-application/${dummyApplicationId}`)
       .set("Authorization", `Bearer ${token}`);
@@ -84,8 +85,9 @@ describe("Application & Bidding APIs Testing", () => {
 
   // 5. APPROVE SUBMISSION TEST
   it("Should call approve submission route", async () => {
-    // Aapka route: /approve-submission/:id (GET)
-    const res = await request(app).get(`/api/applications/approve-submission/${dummyApplicationId}`);
+    const res = await request(app)
+      .get(`/api/applications/approve-submission/${dummyApplicationId}`)
+      .set("Authorization", `Bearer ${token}`);
     
     expect([200, 400, 404, 500]).toContain(res.statusCode);
   });
