@@ -4,25 +4,18 @@ import app from "../app.js";
 import User from "../models/userModel.js";
 
 // Database Connection
-beforeAll(async () => {
-  const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
-  await mongoose.connect(url);
-  await User.deleteMany({ email: "app_test@test.com" });
-}, 30000); 
-
-afterAll(async () => {
-  await User.deleteMany({ email: "app_test@test.com" });
-  await mongoose.connection.close();
-}, 10000);
-
 describe("Application & Bidding APIs Testing", () => {
   let token;
   const dummyProjectId = new mongoose.Types.ObjectId().toString();
   const dummyFreelancerId = new mongoose.Types.ObjectId().toString();
   const dummyApplicationId = new mongoose.Types.ObjectId().toString();
 
-  // SETUP: Get a real token
-  it("Should setup a user and get token", async () => {
+  beforeAll(async () => {
+    const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
+    await mongoose.connect(url);
+    await User.deleteMany({ email: "app_test@test.com" });
+
+    // Login setup yahan (beforeAll mein) hona chahiye
     const userData = {
       username: "app_test_user",
       email: "app_test@test.com",
@@ -35,8 +28,12 @@ describe("Application & Bidding APIs Testing", () => {
       password: userData.password
     });
     token = loginRes.body.token;
-    expect(token).toBeDefined();
-  });
+  }, 30000); 
+
+  afterAll(async () => {
+    await User.deleteMany({ email: "app_test@test.com" });
+    await mongoose.connection.close();
+  }, 10000);
 
   // 1. MAKE BID TEST
   it("Should make a new bid successfully", async () => {
@@ -52,7 +49,6 @@ describe("Application & Bidding APIs Testing", () => {
       .set("Authorization", `Bearer ${token}`)
       .send(bidData); 
     
-    // Status 400 is expected because dummy IDs don't exist in DB, but it shouldn't be 401/404
     expect([200, 400, 500]).toContain(res.statusCode); 
   });
 

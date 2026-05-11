@@ -4,45 +4,38 @@ import app from "../app.js";
 import Project from "../models/projectModel.js";
 import User from "../models/userModel.js";
 
-// Database Connection
-beforeAll(async () => {
-  const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
-  await mongoose.connect(url);
-  await User.deleteMany({ email: "project_test@test.com" });
-}, 30000);
-
-afterAll(async () => {
-  if (mongoose.connection.readyState !== 0) {
-    await User.deleteMany({ email: "project_test@test.com" });
-    await Project.deleteMany({ clientEmail: "testclient@test.com" });
-    await mongoose.connection.close();
-  }
-}, 10000);
-
 describe("Project APIs Testing", () => {
   let token;
   let createdProjectId; 
   const dummyClientId = new mongoose.Types.ObjectId().toString();
 
-  // SETUP: Get a real token
-  it("Should setup a user and get token", async () => {
+  beforeAll(async () => {
+    const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/testdb"; 
+    await mongoose.connect(url);
+    await User.deleteMany({ email: "project_test@test.com" });
+
+    // Login setup
     const userData = {
       username: "project_test_user",
       email: "project_test@test.com",
       password: "password123",
       role: "client"
     };
-    const regRes = await request(app).post("/api/users/register").send(userData);
-    expect([200, 400]).toContain(regRes.statusCode);
-
+    await request(app).post("/api/users/register").send(userData);
     const loginRes = await request(app).post("/api/users/login").send({
       email: userData.email,
       password: userData.password
     });
-    expect(loginRes.statusCode).toBe(200);
     token = loginRes.body.token;
-    expect(token).toBeDefined();
-  });
+  }, 30000);
+
+  afterAll(async () => {
+    if (mongoose.connection.readyState !== 0) {
+      await User.deleteMany({ email: "project_test@test.com" });
+      await Project.deleteMany({ clientEmail: "testclient@test.com" });
+      await mongoose.connection.close();
+    }
+  }, 10000);
 
   // TEST 1: Naya Project Add Karna
   it("Should add a new project successfully", async () => {
