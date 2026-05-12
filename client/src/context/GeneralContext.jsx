@@ -6,7 +6,7 @@ import API from "../config/API";
 export const GeneralContext = createContext();
 
 const GeneralContextProvider = ({ children }) => {
-  const WS = 'http://localhost:6001';
+  const WS = process.env.REACT_APP_WS_URL || 'http://localhost:6001';
   const navigate = useNavigate();
 
   // autoConnect: false karne se socket turant connect nahi hoga
