@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     }catch(err){
-        console.error("Database connection error:", error.message);
+        console.error("Database connection error:", err.message);
     process.exit(1)
     }
 }
