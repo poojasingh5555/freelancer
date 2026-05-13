@@ -24,19 +24,17 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://freelancer-theta-pied.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
-
-
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://freelancer-theta-pied.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
@@ -64,8 +62,8 @@ app.use((req, res) => {
 
 
 app.use((err, req, res, next) => {
-  console.error(err.message);
-  res.status(500).json({ message: "Internal Server Error", error: err.message });
+  console.error("FULL ERROR:", err);
+  res.status(500).json({ message: "Internal Server Error", error: err.message, stack: err.stack });
 });
 const startServer = async () => {
   try {
