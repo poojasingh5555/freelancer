@@ -70,11 +70,11 @@ jobs:
         with:
           context: ./server
           push: true
-          tags: poojasingh123/freelancer-backend:latest
+          tags: ps54321/freelancer-backend:latest
 
       - name: Build and Push Frontend Image
         uses: docker/build-push-action@v6
         with:
           context: ./client
           push: true
-          tags: poojasingh123/freelancer-frontend:latest
+          tags: ps54321/freelancer-frontend:latest
