@@ -59,20 +59,20 @@ const Freelancer = () => {
         <div className="freelancer-home">
           {/* Card Section */}
           <div className="home-cards">
-            <div className="home-card">
+            <div className="home-card" onClick={() => navigate('/my-projects')} style={{ cursor: 'pointer' }}>
               <h4>Current projects</h4>
               <p>{freelancerData.currentProjects?.length || 0}</p>
-              <button onClick={() => navigate('/my-projects')}>View projects</button>
+              <button>View projects</button>
             </div>
-            <div className="home-card">
+            <div className="home-card" onClick={() => navigate('/my-projects')} style={{ cursor: 'pointer' }}>
               <h4>Completed projects</h4>
               <p>{freelancerData.completedProjects?.length || 0}</p>
-              <button onClick={() => navigate('/my-projects')}>View projects</button>
+              <button>View projects</button>
             </div>
-            <div className="home-card">
+            <div className="home-card" onClick={() => navigate('/myApplications')} style={{ cursor: 'pointer' }}>
               <h4>Applications</h4>
               <p>{freelancerData.applications?.length || 0}</p>
-              <button onClick={() => navigate('/myApplications')}>View Applications</button>
+              <button>View Applications</button>
             </div>
             <div className="home-card funds-card" title="This is your total earning from completed projects.">
               <h4>Available Funds</h4>
