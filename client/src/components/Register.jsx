@@ -64,7 +64,7 @@ const Register = ({ setAuthType }) => {
         <option value="">User type</option>
         <option value="freelancer">Freelancer</option>
         <option value="client">Client</option>
-        
+        <option value="admin">Admin</option>
       </select>
 
       {/* Button disable rahega agar fields khali hain ya register ho raha hai */}

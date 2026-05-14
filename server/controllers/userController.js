@@ -18,7 +18,7 @@ export const userSignup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // 3. Create User (Bina transaction ke, taki local DB par crash na ho)
+    // 3. Create User
     const userRole = usertype || role || "client";
     const newUser = await User.create({
       username,
@@ -66,9 +66,13 @@ export const userSignup = async (req, res) => {
 export const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("LOGIN ATTEMPT FOR:", email);
     
     const user = await User.findOne({ email: email });
-    if (!user) return res.status(400).json({ error: "User does not exist" });
+    if (!user) {
+      console.log("LOGIN FAILED: User not found in DB for email:", email);
+      return res.status(400).json({ error: "User does not exist" });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });

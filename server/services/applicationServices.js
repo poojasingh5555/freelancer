@@ -3,7 +3,7 @@ import Freelancer from "../models/freelancerModel.js";
 import Project from "../models/projectModel.js"; 
 import Application from "../models/applicationModel.js"; 
 
-// MAKE BID (Transaction hata diya — local/free-tier MongoDB par hang hota tha)
+// MAKE BID
 export const makeBid = async (data) => {
   const {
     freelancerId,    // Token se aaya verified ID
@@ -147,28 +147,22 @@ export const fetchApplications = async (query) => {
 
   const applications = await Application.find(filter)
     .populate("projectId", "title description skills budget")
-    .populate("freelancerId", "skills")
+    .populate("freelancerId", "username email skills") // Added username/email for freelancer
+    .populate("clientId", "username email") // Added clientId population
     .sort({ createdAt: -1 })
     .lean();
 
   // Flatten the response for performance and easier frontend usage
   return applications.map(app => ({
-    _id: app._id,
-    projectId: app.projectId?._id,
+    ...app, // Keep all original fields including populated objects
+    projectId: app.projectId, // Ensure this is the object
     title: app.projectId?.title || "Unknown Project",
     description: app.projectId?.description || "",
     requiredSkills: app.projectId?.skills || [],
     budget: app.projectId?.budget || 0,
-    clientId: app.clientId,
-    freelancerId: app.freelancerId?._id,
-    freelancerName: app.freelancerName,
-    freelancerEmail: app.freelancerEmail,
+    clientName: app.clientId?.username || "Unknown Client",
+    clientEmail: app.clientId?.email || "",
     freelancerSkills: app.freelancerId?.skills || [],
-    proposal: app.proposal,
-    bidAmount: app.bidAmount,
-    estimatedTime: app.estimatedTime,
-    status: app.status,
-    createdAt: app.createdAt
   }));
 };
 
