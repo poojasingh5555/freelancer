@@ -158,4 +158,4 @@ Tests cover:
 ## 📄 License
 Distributed under the MIT License. See `LICENSE` for more information.
 
-Developed with ❤️ by Pooja Singh
+Developed  by Pooja Sing
