@@ -5,6 +5,7 @@ import {
   getProject,
   submitProject,
   fetchMyAssignedProjects,
+  fetchMyProjects,
 } from "../controllers/projectController.js";
 import { getAllProjects } from "../controllers/adminController.js";
 import {protect} from "../middleware/authMiddleware.js"
@@ -12,6 +13,7 @@ const router = express.Router();
 
 router.route("/fetch-project/:id").get(getProject);
 router.route("/fetch-projects").get(getAllProjects);
+router.route("/fetch-my-projects").get(protect, fetchMyProjects);
 router.route("/new-project").post(protect,addNewProject);
 router.route("/submit-work").post(submitProject);
 router.route("/fetch-my-assigned-projects").get(protect, fetchMyAssignedProjects);

@@ -17,22 +17,13 @@ const Client = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      // Admin controller pagination use kar raha hai, isliye limit badha kar mangwa sakte hain
-      const response = await API.get('api/projects/fetch-projects?limit=1000');
+      // Fetch only projects belonging to this client
+      const response = await API.get('api/projects/fetch-my-projects');
       
-      // Filter sirf wahi projects jo is logged-in client ke hain
-      const userId = localStorage.getItem('userId');
-      
-      // Controller ab object bhej raha hai: { projects: [...] }
-      const allProjects = response.data.projects || [];
-      // clientId populated ho sakta hai (object) ya raw string bhi ho sakta hai
-      const clientPros = allProjects.filter(pro => {
-        const cid = pro.clientId?._id || pro.clientId;
-        return String(cid) === String(userId);
-      });
+      const clientPros = response.data.projects || [];
       
       setProjects(clientPros);
-      setDisplayProjects([...clientPros].reverse());
+      setDisplayProjects([...clientPros]); // Already sorted by backend
     } catch (err) {
       console.error("Fetch error:", err);
     } finally {

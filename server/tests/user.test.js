@@ -31,6 +31,7 @@ describe("User Authentication Tests (Signup & Login)", () => {
   // 1. SIGNUP
   it("Should register a user successfully", async () => {
     const res = await request(app).post("/api/users/register").send(userData);
+    if (res.statusCode !== 200) console.log("REGISTER ERROR BODY:", res.body);
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("_id");
   }, 30000); 

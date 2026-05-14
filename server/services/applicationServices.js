@@ -127,13 +127,12 @@ export const approveSubmission = async (projectId) => {
   return { message: "Submission approved" };
 };
 
-// FETCH APPLICATIONS (Updated with Privacy Guard)
+// FETCH APPLICATIONS (Optimized for performance and frontend structure)
 export const fetchApplications = async (query) => {
   const { projectId, freelancerId, requestingUserId, requestingUserRole } = query;
 
   let filter = {};
 
-  // Role-based filtering logic
   if (requestingUserRole === 'admin') {
     filter = {
       ...(projectId && { projectId }),
@@ -143,15 +142,34 @@ export const fetchApplications = async (query) => {
     filter = { clientId: requestingUserId };
     if (projectId) filter.projectId = projectId;
   } else {
-    // Freelancer sirf apni bids dekh sakta hai
     filter = { freelancerId: requestingUserId };
   }
 
-  return await Application.find(filter)
-    .populate("projectId")
-    .populate("clientId", "username email")
-    .populate("freelancerId", "username email")
-    .sort({ createdAt: -1 });
+  const applications = await Application.find(filter)
+    .populate("projectId", "title description skills budget")
+    .populate("freelancerId", "skills")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  // Flatten the response for performance and easier frontend usage
+  return applications.map(app => ({
+    _id: app._id,
+    projectId: app.projectId?._id,
+    title: app.projectId?.title || "Unknown Project",
+    description: app.projectId?.description || "",
+    requiredSkills: app.projectId?.skills || [],
+    budget: app.projectId?.budget || 0,
+    clientId: app.clientId,
+    freelancerId: app.freelancerId?._id,
+    freelancerName: app.freelancerName,
+    freelancerEmail: app.freelancerEmail,
+    freelancerSkills: app.freelancerId?.skills || [],
+    proposal: app.proposal,
+    bidAmount: app.bidAmount,
+    estimatedTime: app.estimatedTime,
+    status: app.status,
+    createdAt: app.createdAt
+  }));
 };
 
 // DELETE/WITHDRAW APPLICATION
