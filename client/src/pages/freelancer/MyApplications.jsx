@@ -26,7 +26,7 @@ const MyApplications = () => {
 
   // -> Naya Feature: Bid wapas lena (Sirf tab jab status 'Pending' ho)
   const handleWithdraw = async (id) => {
-    if (!window.confirm("Are you sure you want to withdraw this application?")) return;
+    if (!window.confirm("Withdraw this application?")) return;
     try {
       await API.delete(`/api/applications/delete-application/${id}`);
       alert("Application withdrawn successfully.");

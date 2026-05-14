@@ -24,7 +24,7 @@ const AllApplications = () => {
 
   // --- DELETE LOGIC ---
   const handleDeleteApplication = async (id) => {
-    if (window.confirm("Kya aap waqai is application ko delete karna chahte hain?")) {
+    if (window.confirm("Delete this application?")) {
       // Optimistic Update: UI se turant hatane ke liye
       const previousApplications = [...applications];
       setApplications(applications.filter(app => app._id !== id));

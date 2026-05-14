@@ -21,7 +21,7 @@ const AllUsers = () => {
 
   // --- DELETE USER LOGIC ---
   const handleDeleteUser = async (id) => {
-    if (window.confirm("Kya aap is user ko delete karna chahte hain? Isse unke saare projects aur applications bhi delete ho jayenge.")) {
+    if (window.confirm("Delete this user? (Warning: This will remove all their data)")) {
       try {
         await API.delete(`/api/admin/user/${id}`); // Corrected admin route
         setUsers(users.filter(user => user._id !== id)); // UI update
