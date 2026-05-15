@@ -37,6 +37,7 @@
 .my-projects-list .listed-project:hover {
     background: var(--bg-card-hover);
     cursor: pointer;
+    transform: translateX(5px);
 }
 
 .my-projects-list .listed-project-head {

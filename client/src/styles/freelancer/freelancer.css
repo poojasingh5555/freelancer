@@ -41,6 +41,7 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    user-select: none; /* Prevent text cursor */
 }
 
 .home-card::before {
@@ -53,6 +54,7 @@
     background: linear-gradient(90deg, var(--accent), var(--accent-green));
     opacity: 0;
     transition: opacity 0.3s ease;
+    z-index: 0; /* Keep behind content */
 }
 
 .home-card:hover {
@@ -72,6 +74,8 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
 }
 
 .home-card p {
@@ -80,6 +84,8 @@
     color: var(--text-primary);
     margin: 0 0 20px 0;
     letter-spacing: -1px;
+    position: relative;
+    z-index: 1;
 }
 
 .home-card button {

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/freelancer/MyApplications.css';
 import API from "../../config/API";
 
 const MyApplications = () => {
+  const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -45,7 +47,11 @@ const MyApplications = () => {
       <div className="user-applications-body">
         {applications.length > 0 ? (
           applications.map((application) => (
-            <div className={`user-application status-${application.status.toLowerCase()}`} key={application._id}>
+            <div 
+              className={`user-application status-${application.status.toLowerCase()}`} 
+              key={application._id}
+              onClick={() => application.projectId?._id && navigate(`/project/${application.projectId._id}`)}
+            >
               <div className="user-application-body">
                 
                 {/* Left Side: Project Context */}
@@ -94,7 +100,10 @@ const MyApplications = () => {
                     {application.status === "Pending" && (
                       <button 
                         className="btn btn-outline-danger btn-sm" 
-                        onClick={() => handleWithdraw(application._id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleWithdraw(application._id);
+                        }}
                       >
                         Withdraw Bid
                       </button>

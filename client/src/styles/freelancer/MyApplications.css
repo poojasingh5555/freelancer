@@ -36,6 +36,8 @@
 
 .user-application:hover {
     background: var(--bg-card-hover);
+    cursor: pointer;
+    transform: translateX(5px);
 }
 
 .user-application-body {
