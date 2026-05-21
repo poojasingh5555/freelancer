@@ -127,6 +127,10 @@ Tests cover:
 - Project Creation & Bidding
 - Admin Privileges
 - Application Status Updates
+ ## login using credentials
+for example- Admin login (email:admin@sbworks.com and password:adminpassword123)
+client login(email:pra@gmail.com and password:12345)
+freelancer login (email:maduri@gmail.com and password:12345)
 
 ---
 
