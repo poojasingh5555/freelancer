@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/landing.css'
 import {useNavigate} from 'react-router-dom'
 
 const Landing = () => {
 
   const navigate = useNavigate();
+  const [wordIndex, setWordIndex] = useState(0);
+  const words = ["Creativity", "Skills", "Passion", "Potential"];
 
   useEffect(()=>{
     if (localStorage.getItem("usertype") === 'freelancer'){
@@ -16,6 +18,12 @@ const Landing = () => {
     }
   },[navigate])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % words.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [words.length]);
 
   return (
     <div className="landing-page">
@@ -30,7 +38,11 @@ const Landing = () => {
             <div className="landing-hero-text">
 
                 <h1>Empower Your Journey: Elevate Your Craft on SB Works</h1>
-                <p>Dive into a realm of endless possibilities with SB Works. Unleash your creativity, skills, and passion as you embark on a freelancing journey like never before. Our platform is a thriving marketplace where innovation meets opportunity, connecting talented freelancers with businesses seeking excellence. </p>
+                <p>
+                  Dive into a realm of endless possibilities with SB Works. 
+                  Unleash your <span className="highlight-word" style={{color: '#00d2ff', fontWeight: 'bold', display: 'inline-block', minWidth: '100px', transition: 'all 0.5s ease-in-out'}}>{words[wordIndex]}</span> as you embark on a freelancing journey like never before. 
+                  Our platform is a thriving marketplace where innovation meets opportunity, connecting talented freelancers with businesses seeking excellence. 
+                </p>
                 <button onClick={()=> navigate('/authenticate')}>Join Now</button>
             </div>
 
